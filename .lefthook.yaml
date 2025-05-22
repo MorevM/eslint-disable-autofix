@@ -1,0 +1,14 @@
+commit-msg:
+  commands:
+    commitlint:
+      skip: [merge, rebase]
+      run: node ./node_modules/@commitlint/cli/cli.js --edit {1}
+
+pre-commit:
+  parallel: true
+  commands:
+    eslint:
+      glob: '*.{js,ts,json,json5,jsonc,yml,yaml,md}'
+      skip: [merge, rebase]
+      run: pnpm eslint {staged_files} --fix
+      stage_fixed: true

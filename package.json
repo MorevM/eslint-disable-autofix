@@ -1,0 +1,82 @@
+{
+	"name": "@morev/eslint-disable-autofix",
+	"description": "Utility to disable autofix for specific ESLint rules",
+	"type": "module",
+	"private": false,
+	"version": "0.0.0",
+	"packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977",
+	"engines": {
+		"node": ">=18"
+	},
+	"license": "MIT",
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
+	"author": {
+		"name": "Maxim Morev",
+		"email": "max.seainside@gmail.com"
+	},
+	"homepage": "https://github.com/MorevM/eslint-disable-autofix#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/MorevM/eslint-disable-autofix"
+	},
+	"keywords": [
+		"eslint",
+		"autofix",
+		"no-autofix",
+		"disable-autofix"
+	],
+	"files": [
+		"dist"
+	],
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
+		}
+	},
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"scripts": {
+		"prepare": "lefthook install",
+		"test": "vitest",
+		"test:dev": "vitest --watch",
+		"lint": "eslint \"**/*.{js,ts,vue,json,json5,jsonc,yml,yaml,md}\"",
+		"lint:fix": "eslint \"**/*.{js,ts,vue,json,json5,jsonc,yml,yaml,md}\" --fix",
+		"build": "rm -rf dist && tsup",
+		"release": "release-it --disable-metrics"
+	},
+	"peerDependencies": {
+		"eslint": "^9.0.0"
+	},
+	"dependencies": {
+		"@morev/utils": "^3.12.2",
+		"eslint-rule-composer": "^0.3.0"
+	},
+	"devDependencies": {
+		"@morev/commitlint-config": "^0.2.2",
+		"@morev/eslint-config": "^38.1.0",
+		"@morev/stylelint-config": "^7.1.0",
+		"@release-it/conventional-changelog": "^8.0.1",
+		"@types/node": "^22.15.18",
+		"eslint": "9.27.0",
+		"eslint-plugin-unicorn": "^59.0.1",
+		"lefthook": "^1.11.13",
+		"release-it": "^19.0.2",
+		"stylelint": "^16.19.1",
+		"ts-node": "^10.9.2",
+		"tsup": "^8.5.0",
+		"tsx": "^4.19.4",
+		"typescript": "^5.8.3",
+		"vitest": "^3.1.3"
+	}
+}
