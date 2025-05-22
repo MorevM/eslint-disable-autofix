@@ -5,7 +5,8 @@
 import { isEmpty, tsObject } from '@morev/utils';
 import riskyEslint from 'eslint/use-at-your-own-risk';
 import { createNonFixableRule, omitMutable } from './utils';
-import type { ESLint, Linter } from 'eslint';
+import type { PlainObject } from '@morev/utils';
+import type { ESLint } from 'eslint';
 import type { CreateDisableAutofixOptions, InternalDisableAutofixOptions } from './types';
 
 const internalDisableAutofix = (options: InternalDisableAutofixOptions) => {
@@ -120,7 +121,7 @@ export const createDisableAutofix = (
 ) => {
 	const { prefix = 'no-autofix' } = options ?? {};
 
-	return (configurations: Linter.Config[]) => internalDisableAutofix({
+	return (configurations: PlainObject[]) => internalDisableAutofix({
 		configurations,
 		prefix,
 	});
