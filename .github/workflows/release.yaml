@@ -34,6 +34,9 @@ jobs:
       - name: Testing
         run: pnpm test
 
+      - name: Build
+        run: pnpm build
+
       - name: Getting latest changelog entry
         uses: actions/github-script@v7
         id: latest-changelog-entry
