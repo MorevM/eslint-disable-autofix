@@ -11,16 +11,21 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
         with:
-          node-version: '20'
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
           cache: pnpm
           scope: '@morev'
           registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Linting
         run: pnpm lint
@@ -47,4 +52,4 @@ jobs:
       - name: Publish package
         run: pnpm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
