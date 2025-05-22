@@ -2,7 +2,7 @@ commit-msg:
   commands:
     commitlint:
       skip: [merge, rebase]
-      run: node ./node_modules/@commitlint/cli/cli.js --edit {1}
+      run: pnpm dlx commitlint --edit {1}
 
 pre-commit:
   parallel: true
