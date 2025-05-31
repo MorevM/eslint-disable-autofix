@@ -59,7 +59,7 @@
 		"eslint": "^9.0.0"
 	},
 	"dependencies": {
-		"@morev/utils": "^3.12.2",
+		"@morev/utils": "^3.13.1",
 		"eslint-rule-composer": "^0.3.0"
 	},
 	"devDependencies": {
