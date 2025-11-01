@@ -70,7 +70,7 @@
 		"@types/node": "^22.15.18",
 		"eslint": "9.27.0",
 		"eslint-plugin-unicorn": "^59.0.1",
-		"lefthook": "^1.11.13",
+		"lefthook": "^2.0.2",
 		"release-it": "^19.0.2",
 		"stylelint": "^16.19.1",
 		"ts-node": "^10.9.2",
