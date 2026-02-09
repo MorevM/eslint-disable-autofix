@@ -134,13 +134,30 @@ const removeMessageIfMessageIdPresent = (reportDescriptor) => {
 	return newDescriptor;
 };
 
+/**
+ * Returns context variables for different versions of ESLint (9 or 10).
+ *
+ * @param     {object}                                     context   ESLint's rule context.
+ *
+ * @returns   {{ filename: string; sourceCode: string }}             [return description]
+ */
+const getContextVariables = (context) => {
+	const filename = 'getFilename' in context && isFunction(context.getFilename)
+		? context.getFilename()
+		: context.filename;
+
+	const sourceCode = 'getSourceCode' in context && isFunction(context.getSourceCode)
+		? context.getSourceCode()
+		: context.sourceCode;
+
+	return { filename, sourceCode };
+};
 
 export default Object.freeze({
 	filterReports(rule, predicate) {
 		return Object.freeze({
 			create(context) {
-				const filename = context.getFilename();
-				const sourceCode = context.getSourceCode();
+				const { filename, sourceCode } = getContextVariables(context);
 				const { settings, options } = context;
 
 				return getRuleCreateFunction(rule)(
@@ -172,8 +189,7 @@ export default Object.freeze({
 	mapReports(rule, iteratee) {
 		return Object.freeze({
 			create(context) {
-				const filename = context.getFilename();
-				const sourceCode = context.getSourceCode();
+				const { filename, sourceCode } = getContextVariables(context);
 				const { settings, options } = context;
 
 				return getRuleCreateFunction(rule)(
