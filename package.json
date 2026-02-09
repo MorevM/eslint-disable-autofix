@@ -64,17 +64,17 @@
 	},
 	"devDependencies": {
 		"@morev/commitlint-config": "^0.2.2",
-		"@morev/eslint-config": "^38.1.0",
+		"@morev/eslint-config": "^40.0.0",
 		"@release-it/conventional-changelog": "^8.0.1",
 		"@types/node": "^22.15.18",
 		"eslint": "9.27.0",
-		"eslint-plugin-unicorn": "^59.0.1",
-		"lefthook": "^1.11.13",
-		"release-it": "^19.0.2",
+		"eslint-plugin-unicorn": "^62.0.0",
+		"lefthook": "^2.1.0",
+		"release-it": "^19.2.4",
 		"ts-node": "^10.9.2",
-		"tsup": "^8.5.0",
-		"tsx": "^4.19.4",
-		"typescript": "^5.8.3",
-		"vitest": "^3.1.3"
+		"tsup": "^8.5.1",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.18"
 	}
 }
