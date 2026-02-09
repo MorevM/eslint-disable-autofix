@@ -1,5 +1,5 @@
 // @ts-expect-error -- No types
-import ruleComposer from 'eslint-rule-composer';
+import ruleComposer from './rule-composer.js';
 import type { PlainObject } from '@morev/utils';
 
 /**
