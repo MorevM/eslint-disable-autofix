@@ -137,9 +137,9 @@ const removeMessageIfMessageIdPresent = (reportDescriptor) => {
 /**
  * Returns context variables for different versions of ESLint (9 or 10).
  *
- * @param     {object}                                     context   ESLint's rule context.
+ * @param     {object}                                    context   ESLint's rule context.
  *
- * @returns   {{ filename: string; sourceCode: string }}             [return description]
+ * @returns   {{filename: string; sourceCode: string;}}             [return description]
  */
 const getContextVariables = (context) => {
 	const filename = 'getFilename' in context && isFunction(context.getFilename)

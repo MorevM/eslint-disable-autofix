@@ -29,8 +29,8 @@ It's useful when you want a rule to remain active for linting purposes but preve
 
 > [!IMPORTANT]
 >
-> * Only works with ESLint v9 with flat config format or ESLint v10;
-> * You have to restart ESLint server after adding/removing `no-autofix/` prefix to take effect.
+> - Only works with ESLint v9 with flat config format or ESLint v10;
+> - You have to restart ESLint server after adding/removing `no-autofix/` prefix to take effect.
 
 ---
 
