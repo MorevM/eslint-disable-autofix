@@ -16,22 +16,20 @@ It's useful when you want a rule to remain active for linting purposes but preve
 ---
 
 > [!NOTE]
-> This is a temporary solution until [this RFC](https://github.com/eslint/rfcs/pull/134) is accepted
-> and a final implementation is made that closes [this issue](https://github.com/eslint/eslint/issues/18696) -
+> This is a temporary solution until [this issue](https://github.com/eslint/eslint/issues/18696) is resolved -
 > after that the feature for disabling autofix for rules will be in the ESLint core.
 >
-> I am working on RFC development and final implementation in the core myself,
-> but the process will take some time, and the problem is already there.
+> I tried to get [the RFC implemented](https://github.com/eslint/rfcs/pull/134), but was unsuccessful.
+> Now there is another RFC: <https://github.com/eslint/rfcs/pull/143>
 >
-> I'll probably be able to implement this as a polyfill for the final solution,
-> once [the RFC](https://github.com/eslint/rfcs/pull/134) discussion reaches
-> a consensus on a public API.
+> I'll probably be able to implement this package as a polyfill for the final solution,
+> once RFC discussion reaches a consensus on a public API.
 
 ---
 
 > [!IMPORTANT]
 >
-> * Only works with ESLint v9 and its flat config format;
+> * Only works with ESLint v9 with flat config format or ESLint v10;
 > * You have to restart ESLint server after adding/removing `no-autofix/` prefix to take effect.
 
 ---
@@ -48,15 +46,15 @@ due to project-specific or personal preferences.
 
 ## Installation
 
-```bash
+```sh
 pnpm add -D @morev/eslint-disable-autofix
 ```
 
-```bash
+```sh
 yarn add @morev/eslint-disable-autofix -D
 ```
 
-```bash
+```sh
 npm install -D @morev/eslint-disable-autofix
 ```
 
@@ -111,29 +109,7 @@ export default disableAutofix([
 1. Strips the prefix to keep the original name of the rule;
 1. Patches rules from ESLint core or third-party plugins directly to disable autofix.
 
-Under the hood, it uses [`eslint-rule-composer`](https://github.com/not-an-aardvark/eslint-rule-composer)
-to wrap rules with autofix disabled.
-
->[!CAUTION]
+> [!CAUTION]
 > Direct patching is quite risky and hacky, it relies on non-public ESLint API. \
 > While it's currently the only way to access certain rule internals,
 > it may break in future ESLint versions.
-
-## Alternatives
-
-I've been using [eslint-plugin-no-autofix](https://github.com/aladdin-add/eslint-plugin/tree/master/packages/no-autofix)
-for a long time and haven't had much trouble with it, however recently problems have arisen:
-
-1. Some popular plugins (like [eslint-plugin-unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn)
-   or [eslint-stylistic](https://github.com/eslint-stylistic/eslint-stylistic))
-   switch to the ESM-only distribution format and
-   [eslint-plugin-no-autofix](https://github.com/aladdin-add/eslint-plugin/tree/master/packages/no-autofix) doesn't work with it.
-   The [issue have no response](https://github.com/aladdin-add/eslint-plugin/issues/104),
-   so I've decided to create my own solution that works in a different way.
-1. I'm getting tired of rules being renamed just to make them work. \
-   Say I need to disable a rule with autofix turned off for a single file - I write `/* eslint-disable no-autofix/unicorn/no-lonely-if */`. \
-   Later, the broken autofix in the original rule gets fixed, I re-enable the main rule,
-   and now the directive no longer applies, which leads to unexpected changes I didn't want.
-
-   Patching the original rules instead of creating new ones might be a bit riskier technically,
-   but from a developer experience perspective, it's definitely cleaner and more intuitive.
