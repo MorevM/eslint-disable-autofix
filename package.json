@@ -59,15 +59,15 @@
 		"eslint": "^9.0.0 || ^10.0.0"
 	},
 	"dependencies": {
-		"@morev/utils": "^3.12.2"
+		"@morev/utils": "^3.13.1"
 	},
 	"devDependencies": {
 		"@morev/commitlint-config": "^0.2.2",
-		"@morev/eslint-config": "^40.0.0",
+		"@morev/eslint-config": "^41.0.0",
 		"@release-it/conventional-changelog": "^8.0.1",
 		"@types/node": "^22.15.18",
 		"eslint": "9.39.2",
-		"eslint-plugin-unicorn": "^62.0.0",
+		"eslint-plugin-unicorn": "^63.0.0",
 		"lefthook": "^2.1.0",
 		"release-it": "^19.2.4",
 		"ts-node": "^10.9.2",
