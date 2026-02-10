@@ -5,6 +5,7 @@ on:
     tags: [v*]
 
 permissions:
+  id-token: write
   contents: write
 
 jobs:
@@ -16,11 +17,13 @@ jobs:
 
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
+        with:
+          version: 10
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: 24
           cache: pnpm
           scope: '@morev'
           registry-url: https://registry.npmjs.org
@@ -56,4 +59,5 @@ jobs:
       - name: Publish package
         run: pnpm publish --access public --no-git-checks
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Explicitly clear placeholder set by setup-node to enable OIDC
+          NODE_AUTH_TOKEN: ''
