@@ -63,7 +63,7 @@
 	"devDependencies": {
 		"@morev/commitlint-config": "^0.2.2",
 		"@morev/eslint-config": "^41.0.0",
-		"@release-it/conventional-changelog": "^8.0.1",
+		"@release-it/conventional-changelog": "^10.0.5",
 		"@types/node": "^22.15.18",
 		"eslint": "9.39.2",
 		"eslint-plugin-unicorn": "^63.0.0",
