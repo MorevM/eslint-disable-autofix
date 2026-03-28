@@ -58,7 +58,7 @@
 		"eslint": "^9.0.0 || ^10.0.0"
 	},
 	"dependencies": {
-		"@morev/utils": "^3.13.1"
+		"@morev/utils": "^3.15.0"
 	},
 	"devDependencies": {
 		"@morev/commitlint-config": "^0.2.2",
