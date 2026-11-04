@@ -73,10 +73,30 @@ const internalDisableAutofix = (options: InternalDisableAutofixOptions) => {
 	allNoAutofixRules
 		.forEach((fullRuleName) => {
 			const [_, pluginName, ruleName] = fullRuleName.match(/(?:(.*?)\/)?(.*)/)!;
+			const plugin = allPlugins[pluginName];
 
 			// Third-party rules
-			if (pluginName && allPlugins[pluginName]?.rules?.[ruleName]) {
-				allPlugins[pluginName].rules[ruleName] = createNonFixableRule(allPlugins[pluginName].rules[ruleName]);
+			if (pluginName && plugin?.rules?.[ruleName]) {
+				// Lazy rule exports can expose non-configurable getters without setters.
+				// Spread creates writable rule entries while leaving the original table untouched.
+				// Copy the plugin too, so replacing its rules table does not mutate the imported plugin.
+				const patchedPlugin = {
+					...plugin,
+					rules: {
+						...plugin.rules,
+						[ruleName]: createNonFixableRule(plugin.rules[ruleName]),
+					},
+				};
+
+				// ESLint requires the same plugin object for a given name across flat config entries.
+				// Move every matching reference to this copy to avoid "Cannot redefine plugin" errors.
+				configurations.forEach((configuration) => {
+					if (configuration.plugins?.[pluginName] === plugin) {
+						configuration.plugins[pluginName] = patchedPlugin;
+					}
+				});
+				// The next rule must use this copy to preserve all wrappers already applied to the plugin.
+				allPlugins[pluginName] = patchedPlugin;
 
 				return;
 			}
