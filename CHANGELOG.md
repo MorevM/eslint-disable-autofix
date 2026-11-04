@@ -1,12 +1,17 @@
 
 
-## [1.1.0](https://github.com/MorevM/eslint-disable-autofix/compare/v1.0.2...v1.1.0) (2026-02-11)
+## [1.1.1](https://github.com/MorevM/eslint-disable-autofix/compare/v1.1.0...v1.1.1) (2026-11-04)
 
+### Bug fixes
+
+* Support getter-only plugin rule exports ([#135](https://github.com/MorevM/eslint-disable-autofix/issues/135)) ([96ffdb1](https://github.com/MorevM/eslint-disable-autofix/commit/96ffdb1c1b3a889aeecac9ef1cf7e8e7bca3e8ad))
+
+
+## [1.1.0](https://github.com/MorevM/eslint-disable-autofix/compare/v1.0.2...v1.1.0) (2026-02-11)
 
 ### Features
 
 * Add ESLint v10 compatibility ([#109](https://github.com/MorevM/eslint-disable-autofix/issues/109)) ([54f59fd](https://github.com/MorevM/eslint-disable-autofix/commit/54f59fda01ac22ebd403f17ce8105f9969cb038c))
-
 
 ### CI improvements
 
