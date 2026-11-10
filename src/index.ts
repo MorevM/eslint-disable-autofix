@@ -10,7 +10,8 @@ import type { ESLint, Linter } from 'eslint';
 import type { CreateDisableAutofixOptions, InternalDisableAutofixOptions } from './types';
 
 const internalDisableAutofix = (options: InternalDisableAutofixOptions) => {
-	const { configurations, prefix } = options;
+	const { prefix } = options;
+	let { configurations } = options;
 
 	// Stores the clean names of all rules that need to be patched.
 	// During the definition process, patches the configurations themselves
@@ -90,10 +91,18 @@ const internalDisableAutofix = (options: InternalDisableAutofixOptions) => {
 
 				// ESLint requires the same plugin object for a given name across flat config entries.
 				// Move every matching reference to this copy to avoid "Cannot redefine plugin" errors.
-				configurations.forEach((configuration) => {
-					if (configuration.plugins?.[pluginName] === plugin) {
-						configuration.plugins[pluginName] = patchedPlugin;
-					}
+				configurations.forEach((configuration, configurationIndex) => {
+					if (configuration.plugins?.[pluginName] !== plugin) return;
+
+					// Plugin tables can be shared by independent builds; never patch them in place.
+					const plugins = { ...configuration.plugins, [pluginName]: patchedPlugin };
+					if (Reflect.set(configuration, 'plugins', plugins)) return;
+
+					// A frozen configuration can still have mutable rules.
+					// Replace its entry in a new result array when its plugins property cannot be assigned.
+					configurations = configurations.map((entry, index) => index === configurationIndex
+						? { ...configuration, plugins }
+						: entry);
 				});
 				// The next rule must use this copy to preserve all wrappers already applied to the plugin.
 				allPlugins[pluginName] = patchedPlugin;
@@ -167,8 +176,7 @@ export const createDisableAutofix = (
  * ]);
  *
  * @returns
- *    Configurations as passed, in which rules with the `no-autofix/` prefix
- *    are replaced with the same rules without the prefix,
- *    and the original rules are patched so that `autofix` is not performed.
+ *    Configurations with prefixes removed and autofix disabled. Always use this result:
+ *    rule tables are mutated, but configurations with non-writable `plugins` are copied.
  */
 export const disableAutofix = createDisableAutofix();

@@ -54,8 +54,9 @@ describe('Third-party plugin copies', () => {
 			plugins: { test: plugin },
 			rules: { 'no-autofix/test/first': 'error' },
 		};
+		const input = [configuration];
 
-		const configurations = disableAutofix([configuration]);
+		const configurations = disableAutofix(input);
 		const result = new Linter().verifyAndFix('const first = 1;', configurations);
 
 		expect(result.fixed).toBe(false);
@@ -65,6 +66,8 @@ describe('Third-party plugin copies', () => {
 		]);
 		expect(result.messages[0].fix).toBeUndefined();
 		expect(configuration.plugins.test).not.toBe(plugin);
+		expect(configurations).toBe(input);
+		expect(configurations[0]).toBe(configuration);
 		expect(configuration.plugins.test.meta).toBe(plugin.meta);
 		expect(configuration.plugins.test.rules).not.toBe(originalRules);
 		expect(configuration.plugins.test.rules.second).toBe(originalRules.second);
@@ -165,5 +168,60 @@ describe('Third-party plugin copies', () => {
 			{ ruleId: 'test/second', message: 'Unexpected second.', severity: 1 },
 		]);
 		expect(result.messages[0].fix).toBeUndefined();
+	});
+
+	it('Can build configurations repeatedly with a shared plugins table', () => {
+		const plugin = createPlugin();
+		const plugins = { test: plugin };
+		const build = () => disableAutofix([
+			{ plugins },
+			{
+				plugins: { test: plugin },
+				rules: { 'no-autofix/test/first': 'error' },
+			},
+		]);
+		const first = build();
+		const second = build();
+
+		for (const configurations of [first, second]) {
+			const result = new Linter().verifyAndFix('const first = 1;', configurations);
+
+			expect(result.fixed).toBe(false);
+			expect(result.output).toBe('const first = 1;');
+			expect(result.messages).toMatchObject([
+				{ ruleId: 'test/first', message: 'Unexpected first.', severity: 2 },
+			]);
+			expect(result.messages[0].fix).toBeUndefined();
+			expect(configurations[0].plugins?.test).toBe(configurations[1].plugins?.test);
+		}
+
+		expect(plugins.test).toBe(plugin);
+		expect(first[0].plugins?.test).not.toBe(second[0].plugins?.test);
+	});
+
+	it('Can use a shallow-frozen configuration with mutable plugins and rules', () => {
+		const plugin = createPlugin();
+		const plugins = { test: plugin };
+		const configuration = Object.freeze({
+			plugins,
+			rules: { 'no-autofix/test/first': 'error', 'no-autofix/test/second': 'warn' },
+		});
+		const input = [configuration];
+		Object.freeze(input);
+		const configurations = disableAutofix(input);
+		const result = new Linter().verifyAndFix('const first = second;', configurations);
+
+		expect(result.fixed).toBe(false);
+		expect(result.output).toBe('const first = second;');
+		expect(result.messages).toMatchObject([
+			{ ruleId: 'test/first', message: 'Unexpected first.', severity: 2 },
+			{ ruleId: 'test/second', message: 'Unexpected second.', severity: 1 },
+		]);
+		expect(result.messages.every((message) => isUndefined(message.fix))).toBe(true);
+		expect(configurations).not.toBe(input);
+		expect(configurations[0]).not.toBe(configuration);
+		expect(configuration.plugins).toBe(plugins);
+		expect(plugins.test).toBe(plugin);
+		expect(configuration.rules).toStrictEqual({ 'test/first': 'error', 'test/second': 'warn' });
 	});
 });

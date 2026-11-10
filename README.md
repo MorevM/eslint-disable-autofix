@@ -30,6 +30,9 @@ It's useful when you want a rule to remain active for linting purposes but preve
 > [!IMPORTANT]
 >
 > - Only works with ESLint v9 with flat config format or ESLint v10;
+> - Apply the helper once to the final combined configuration.
+>   Combining independently processed results can cause `Cannot redefine plugin` errors;
+> - Always use the returned configurations;
 > - You have to restart ESLint server after adding/removing `no-autofix/` prefix to take effect.
 
 ---
@@ -107,7 +110,10 @@ export default disableAutofix([
 
 1. Scans passed ESLint configurations for rules with a specified prefix;
 1. Strips the prefix to keep the original name of the rule;
-1. Patches rules from ESLint core or third-party plugins directly to disable autofix.
+1. Patches ESLint core rules directly and copies third-party plugins to disable autofix.
+
+The helper mutates rule tables and replaces `plugins` with a copy.
+Configurations with a non-writable `plugins` property are copied too.
 
 > [!CAUTION]
 > Direct patching is quite risky and hacky, it relies on non-public ESLint API. \
