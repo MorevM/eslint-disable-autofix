@@ -1,5 +1,12 @@
 
 
+## [1.1.2](https://github.com/MorevM/eslint-disable-autofix/compare/v1.1.1...v1.1.2) (2026-11-10)
+
+
+### Bug fixes
+
+* Avoid mutating shared plugin tables ([#137](https://github.com/MorevM/eslint-disable-autofix/issues/137)) ([9129f02](https://github.com/MorevM/eslint-disable-autofix/commit/9129f020db5478b8a226086a698f310f4cf0b57c))
+
 ## [1.1.1](https://github.com/MorevM/eslint-disable-autofix/compare/v1.1.0...v1.1.1) (2026-11-04)
 
 ### Bug fixes
